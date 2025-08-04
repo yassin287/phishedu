@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Vercel Build Script for Laravel
+# Vercel Build Script for Laravel with MySQL
 echo "Starting PhishEdu Laravel build process..."
 
 # Install Composer dependencies
@@ -11,12 +11,7 @@ if [ -z "$APP_KEY" ]; then
     php artisan key:generate --force
 fi
 
-# Create SQLite database if it doesn't exist
-if [ ! -f "/tmp/database.sqlite" ]; then
-    touch /tmp/database.sqlite
-fi
-
-# Run database migrations
+# Run database migrations (MySQL)
 php artisan migrate --force
 
 # Seed the platforms
