@@ -132,6 +132,7 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
                     <li class="nav-item"><a class="nav-link" href="#platforms">Platforms</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#demo">Try Demo</a></li>
                     <li class="nav-item"><a class="nav-link" href="#installation">Installation</a></li>
                     <li class="nav-item"><a class="nav-link" href="#documentation">Docs</a></li>
                     <li class="nav-item">
@@ -158,7 +159,7 @@
                     </div>
                 </div>
             </div>
-            <a href="#features" class="btn btn-hero btn-lg me-3">Explore Features</a>
+            <a href="#demo" class="btn btn-hero btn-lg me-3">Try Demo</a>
             <a href="https://github.com/yassin287/phishedu" class="btn btn-outline-light btn-lg" target="_blank">
                 <i class="fab fa-github me-2"></i>View on GitHub
             </a>
@@ -267,6 +268,93 @@
                     <div class="platform-card">
                         <i class="fas fa-plus platform-icon text-secondary"></i>
                         <h6>More Soon</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="py-5 bg-primary text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5">
+                    <h2><i class="fas fa-play-circle me-3"></i>Try It Now</h2>
+                    <p class="lead">Experience PhishEdu's link generation in action</p>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card bg-white text-dark">
+                        <div class="card-header bg-dark text-white">
+                            <h5 class="mb-0"><i class="fas fa-link me-2"></i>Create Phishing Link Demo</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="demoForm">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="platform" class="form-label">Select Platform</label>
+                                        <select class="form-select" id="platform" name="platform" required>
+                                            <option value="">Choose a platform...</option>
+                                            <option value="facebook">Facebook</option>
+                                            <option value="gmail">Gmail</option>
+                                            <option value="instagram">Instagram</option>
+                                            <option value="linkedin">LinkedIn</option>
+                                            <option value="twitter">Twitter/X</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="target_email" class="form-label">Target Email (Demo)</label>
+                                        <input type="email" class="form-control" id="target_email" name="target_email" placeholder="demo@example.com" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">Campaign Description</label>
+                                    <input type="text" class="form-control" id="description" name="description" placeholder="Security Training Demo" required>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-magic me-2"></i>Generate Demo Link
+                                    </button>
+                                </div>
+                            </form>
+                            <div id="demoResult" class="mt-4" style="display: none;">
+                                <div class="alert alert-success">
+                                    <h6><i class="fas fa-check-circle me-2"></i>Demo Link Generated Successfully!</h6>
+                                    <div class="row">
+                                        <div class="col-sm-3"><strong>Short URL:</strong></div>
+                                        <div class="col-sm-9">
+                                            <code id="shortUrl" class="text-success"></code>
+                                            <button class="btn btn-sm btn-outline-primary ms-2" onclick="copyToClipboard('shortUrl')">
+                                                <i class="fas fa-copy"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-sm-3"><strong>Target Platform:</strong></div>
+                                        <div class="col-sm-9"><span id="targetPlatform" class="badge bg-primary"></span></div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-12">
+                                            <a id="previewLink" href="#" class="btn btn-outline-primary" target="_blank">
+                                                <i class="fas fa-eye me-2"></i>Preview Login Page
+                                            </a>
+                                            <small class="text-muted d-block mt-2">
+                                                <i class="fas fa-info-circle me-1"></i>
+                                                This is a demo link for educational purposes only
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-4">
+                        <div class="alert alert-warning bg-warning text-dark border-0">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <strong>Demo Mode:</strong> This demo creates non-functional links for demonstration purposes only. 
+                            Install PhishEdu locally for full functionality.
+                        </div>
                     </div>
                 </div>
             </div>
@@ -384,5 +472,202 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Demo functionality
+        document.getElementById('demoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const platform = document.getElementById('platform').value;
+            const targetEmail = document.getElementById('target_email').value;
+            const description = document.getElementById('description').value;
+            
+            // Simulate API call delay
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Generating...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                // Generate demo data
+                const demoShortUrls = {
+                    facebook: 'https://tinyurl.com/fb-demo-' + Math.random().toString(36).substr(2, 6),
+                    gmail: 'https://is.gd/gmail_' + Math.random().toString(36).substr(2, 6),
+                    instagram: 'https://tinyurl.com/ig-secure-' + Math.random().toString(36).substr(2, 6),
+                    linkedin: 'https://is.gd/li_auth_' + Math.random().toString(36).substr(2, 6),
+                    twitter: 'https://tinyurl.com/x-verify-' + Math.random().toString(36).substr(2, 6)
+                };
+                
+                const platformNames = {
+                    facebook: 'Facebook',
+                    gmail: 'Gmail',
+                    instagram: 'Instagram', 
+                    linkedin: 'LinkedIn',
+                    twitter: 'Twitter/X'
+                };
+                
+                // Display results
+                document.getElementById('shortUrl').textContent = demoShortUrls[platform];
+                document.getElementById('targetPlatform').textContent = platformNames[platform];
+                document.getElementById('previewLink').href = '#demo-preview';
+                document.getElementById('previewLink').onclick = function() {
+                    showDemoPreview(platform);
+                    return false;
+                };
+                
+                // Show result
+                document.getElementById('demoResult').style.display = 'block';
+                document.getElementById('demoResult').scrollIntoView({ behavior: 'smooth' });
+                
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 2000);
+        });
+        
+        // Copy to clipboard function
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+            
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('Link copied to clipboard!');
+                });
+            } else {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showToast('Link copied to clipboard!');
+                } catch (err) {
+                    console.error('Failed to copy text: ', err);
+                }
+                document.body.removeChild(textArea);
+            }
+        }
+        
+        // Show demo preview
+        function showDemoPreview(platform) {
+            const previewData = {
+                facebook: {
+                    title: 'Facebook Login Page Preview',
+                    description: 'Exact replica of Facebook\'s current login interface with blue branding and familiar layout.',
+                    features: ['Meta branding', 'Responsive design', 'Real-time validation', 'Mobile optimized']
+                },
+                gmail: {
+                    title: 'Gmail Login Page Preview', 
+                    description: 'Pixel-perfect Google account login page with Material Design elements.',
+                    features: ['Google branding', 'Material Design', 'Progressive enhancement', 'Accessibility features']
+                },
+                instagram: {
+                    title: 'Instagram Login Page Preview',
+                    description: 'Modern Instagram login interface with gradient backgrounds and mobile-first design.',
+                    features: ['Instagram branding', 'Gradient design', 'Mobile responsive', 'Social login options']
+                },
+                linkedin: {
+                    title: 'LinkedIn Login Page Preview',
+                    description: 'Professional LinkedIn sign-in page with corporate styling and professional layout.',
+                    features: ['LinkedIn branding', 'Professional design', 'Business-focused', 'Clean interface']
+                },
+                twitter: {
+                    title: 'Twitter/X Login Page Preview',
+                    description: 'Updated X (formerly Twitter) login page with dark theme and modern aesthetics.',
+                    features: ['X branding', 'Dark theme support', 'Modern UI', 'Simplified layout']
+                }
+            };
+            
+            const data = previewData[platform];
+            const modal = `
+                <div class="modal fade" id="previewModal" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">${data.title}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>${data.description}</p>
+                                <h6>Key Features:</h6>
+                                <ul>
+                                    ${data.features.map(feature => `<li>${feature}</li>`).join('')}
+                                </ul>
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    <strong>Demo Note:</strong> This is a preview description. The actual login pages are pixel-perfect replicas available when you install PhishEdu locally.
+                                </div>
+                                <div class="text-center">
+                                    <img src="https://via.placeholder.com/500x300/4285f4/ffffff?text=${platform.toUpperCase()}+LOGIN+PREVIEW" 
+                                         class="img-fluid rounded" alt="${data.title}">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <a href="#installation" class="btn btn-primary" data-bs-dismiss="modal">Install PhishEdu</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Remove existing modal
+            const existingModal = document.getElementById('previewModal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+            
+            // Add new modal
+            document.body.insertAdjacentHTML('beforeend', modal);
+            const modalInstance = new bootstrap.Modal(document.getElementById('previewModal'));
+            modalInstance.show();
+        }
+        
+        // Toast notification
+        function showToast(message) {
+            const toastHtml = `
+                <div class="position-fixed top-0 end-0 p-3" style="z-index: 9999">
+                    <div class="toast show" role="alert">
+                        <div class="toast-header">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong class="me-auto">Success</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+                        </div>
+                        <div class="toast-body">${message}</div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', toastHtml);
+            
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                const toasts = document.querySelectorAll('.toast');
+                toasts.forEach(toast => {
+                    if (toast.parentElement) {
+                        toast.parentElement.remove();
+                    }
+                });
+            }, 3000);
+        }
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                if (this.getAttribute('href') !== '#demo-preview') {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
